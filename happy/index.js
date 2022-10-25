@@ -29,9 +29,9 @@ server.route({
   method: 'GET',
   path: '/api/happy/multiply',
   handler: (request, h) => {
-    const params = request.query
+    const params = request.query;
     const result = params.num1 * params.num2;
-    postToBootStorage(params.num1, params.num2, '*',result);
+    //postToBootStorage(params.num1, params.num2, '*',result);
     return result;
   }
 });
@@ -40,9 +40,9 @@ server.route({
   method: 'GET',
   path: '/api/happy/divide',
   handler: (request, h) => {
-    const params = request.query
+    const params = request.query;
     const result = params.num1 / params.num2;
-    postToBootStorage(params.num1, params.num2, '/',result);
+    //postToBootStorage(params.num1, params.num2, '/',result);
     return result;
   }
 });

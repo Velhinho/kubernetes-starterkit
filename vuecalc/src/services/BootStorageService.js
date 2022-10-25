@@ -1,7 +1,9 @@
-import Api from '@/services/Api'
+import axios from 'axios'
+
 
 export default {
     getOperations () {
-        return Api('bootstorage').get('/operations');
+        const url = 'http://localhost:5000/api/bootstorage';
+        return axios.get(url);
     }
 }

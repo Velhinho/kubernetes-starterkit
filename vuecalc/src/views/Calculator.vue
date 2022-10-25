@@ -73,8 +73,8 @@ export default {
               try{
                   console.log('Hitting web api for addition')
                   const response = await ExpressedService.getAdditionResult(num1, num2);
-                  console.log('Returned result=' + response.data.result);
-                  callback(response.data.result);
+                  console.log('Returned result=' + response.data);
+                  callback(response.data);
               } catch(e){
                   callback(e);
               }
@@ -84,8 +84,8 @@ export default {
               try{
                   console.log('Hitting web api for subtraction')
                   const response = await ExpressedService.getSubtractionResult(num1, num2);
-                  console.log('Returned result=' + response.data.result);
-                  callback(response.data.result);
+                  console.log('Returned result=' + response.data);
+                  callback(response.data);
               } catch(e){
                   callback(e);
               }
