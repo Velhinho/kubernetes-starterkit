@@ -28,6 +28,6 @@ class ServerManager:
 
     def post(self, num1, num2, op, result):
         con = sqlite3.connect("agisit.db")
-        con.execute(f'INSERT INTO Calculations VALUES (21, 21, "+", 42)')
+        con.execute(f'INSERT INTO Calculations(NUM1, NUM2, OPERATION, RESULT) VALUES (21, 21, "+", 42)')
         con.commit()
         con.close()

@@ -31,7 +31,7 @@ server.route({
   handler: (request, h) => {
     const params = request.query
     const result = parseFloat(params.num1) + parseFloat(params.num2);
-    //postToBootStorage(params.num1, params.num2, '+',result);
+    postToBootStorage(params.num1, params.num2, '+',result);
     return result;
   }
 });
@@ -42,7 +42,7 @@ server.route({
   handler: (request, h) => {
     const params = request.query
     const result = params.num1 - params.num2;
-    //postToBootStorage(params.num1, params.num2, '-',result);
+    postToBootStorage(params.num1, params.num2, '-',result);
     return result;
   }
 });
@@ -66,9 +66,8 @@ function postToBootStorage(num1, num2, operation, result){
         "result": result
          };
   
-  console.log("Sending create operation request to Spring Boot service 'bootstorage'. Data = ", JSON.stringify(data));
   request({
-      url: "http://bootstorage-svc:5000/api/bootstorage/create",
+      url: "http://localhost:5000/api/bootstorage",
       method: "POST",
       json: true,
       body: data

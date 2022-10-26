@@ -31,7 +31,7 @@ server.route({
   handler: (request, h) => {
     const params = request.query;
     const result = params.num1 * params.num2;
-    //postToBootStorage(params.num1, params.num2, '*',result);
+    postToBootStorage(params.num1, params.num2, '*',result);
     return result;
   }
 });
@@ -42,7 +42,7 @@ server.route({
   handler: (request, h) => {
     const params = request.query;
     const result = params.num1 / params.num2;
-    //postToBootStorage(params.num1, params.num2, '/',result);
+    postToBootStorage(params.num1, params.num2, '/',result);
     return result;
   }
 });
