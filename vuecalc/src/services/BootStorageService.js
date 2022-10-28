@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default {
     getOperations () {
-        const url = 'http://localhost:5000/api/bootstorage';
+        const url = 'http://bootstorage/api/bootstorage';
         return axios.get(url);
     }
 }

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "prod": "vue-cli-service build && http-server dist -p 2000"
+    "prod": "vue-cli-service build && http-server dist -p 80"
   },
   "dependencies": {
     "axios": "^0.18.0",

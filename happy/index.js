@@ -4,7 +4,7 @@ const Hapi = require('hapi');
 const request = require('request');
 
 const server = Hapi.server({
-    port: 4000,
+    port: 80,
     routes: { cors: { origin: ['*'] } },
     host: '0.0.0.0'
 });
