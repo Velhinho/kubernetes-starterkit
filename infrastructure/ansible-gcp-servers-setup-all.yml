@@ -1,0 +1,177 @@
+---
+# file: ansible-gcp-servers-setup-all.yml
+# configures the server instances
+# This Playbook has Three Plays: one for critical configurations in all servers
+# A second one for installing software in web servers
+# a third one to install software in the bootstorage
+
+# This First Play sets up critical configuration on servers
+- hosts: targets
+  # as the systems are not yet "known" by Ansible Facts cannot be gathered yet
+  gather_facts: no
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  pre_tasks:
+    # To operate remotely in critical files without direct user input
+    - name: Remove require tty - alt
+      lineinfile:
+        regexp: "requiretty"
+        dest: /etc/sudoers.d/os_defaults
+        state: absent
+    # Giving permissions in sudoers for system critical files (see https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html)
+    - name: Validate the sudoers file before saving not to require password
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%ADMIN ALL='
+        line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+    # Install the SSH key on servers
+    - name: install ssh key
+      authorized_key:
+        user: ubuntu
+        key: "{{ lookup('file', '/home/vagrant/.ssh/id_rsa.pub') }}"
+        state: present
+
+  tasks:
+    - name: apt update
+      shell:
+        "sudo apt update"
+
+    - name: install python3
+      apt:
+        pkg: python3
+        state: present
+
+    - name: install git
+      apt:
+        pkg: git
+        state: present
+
+    - name: check if directory exists
+      stat:
+        path: "kubernetes-starterkit/"
+      register: kube_dir
+
+    - name: download repo
+      shell:
+        "git clone https://github.com/Velhinho/kubernetes-starterkit.git"
+      when: not kube_dir.stat.exists
+
+
+
+###############################################
+    # populate the /etc/hosts
+    - name: update /etc/hosts file for name resolution
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
+        state: present
+      when: hostvars[item]['ansible_default_ipv4']['address'] is defined
+      with_items: '{{groups.targets}}'
+
+
+# This Second Play -> web servers
+- hosts: web
+  gather_facts: True
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: install npm
+      shell:
+        "sudo apt install npm -y"
+
+
+# Vue Play
+- hosts: vue
+  gather_facts: True
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: npm install on vuecalc directory
+      shell:
+        "sudo npm install"
+      args:
+        chdir: kubernetes-starterkit/vuecalc/
+    
+#    - name: startup
+#      shell:
+#        "npm run prod"
+#        args:
+#          chdir: kubernetes-starterkit/vuecalc/
+
+
+
+# Happy Play
+- hosts: happy
+  gather_facts: True
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:   
+    - name: npm install on happy directory
+      shell:
+        "sudo npm install"
+      args:
+        chdir: kubernetes-starterkit/happy/
+    
+#    - name: startup
+#      shell:
+#        "npm run start"
+#      args:
+#        chdir: kubernetes-starterkit/happy/
+
+# Expressed Play
+- hosts: expressed
+  gather_facts: True
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:  
+    - name: npm install on expressed directory
+      shell:
+        "sudo npm install"
+      args:
+        chdir: kubernetes-starterkit/expressed/
+    
+#    - name: startup
+#      shell:
+#        "npm run start"
+#      args:
+#        chdir: kubernetes-starterkit/expressed/
+
+
+# Bootstorage Play
+- hosts: bootstorage
+  gather_facts: true
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: install flask
+      shell:
+        "sudo apt install python3-flask -y"
+    
+    - name: run flask on bootstorage directory
+      shell:
+        "sudo flask run --host='0.0.0.0' -p 80 &"
+      args:
+        chdir: kubernetes-starterkit/bootstorage/
+
+
+#      register: os_info
+
+#   - debug:
+#        msg: "{{os_info.stdout_lines}}"
+
+

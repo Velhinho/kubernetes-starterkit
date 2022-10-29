@@ -1,0 +1,36 @@
+# file: gcphosts
+# for GCP tenant hosts file
+
+# Edit the public IP for each ansible_host
+vue            ansible_host=34.159.174.109 ansible_user=ubuntu ansible_connection=ssh
+happy          ansible_host=34.159.44.13 ansible_user=ubuntu ansible_connection=ssh
+expressed      ansible_host=35.198.136.36 ansible_user=ubuntu ansible_connection=ssh
+bootstorage    ansible_host=34.89.172.222 ansible_user=ubuntu ansible_connection=ssh
+
+# local deployment host VM
+[osmgmt]
+localhost      ansible_connection=local
+
+# web servers
+[web]
+vue
+happy
+expressed
+
+[vue]
+vue
+
+[happy]
+happy
+
+[expressed]
+expressed
+
+[bootstorage]
+bootstorage
+
+[targets]
+vue
+happy
+expressed
+bootstorage
