@@ -88,9 +88,9 @@
   become_method: sudo
 
   tasks:
-    - name: install npm
-      shell:
-        "sudo apt install npm -y"
+#    - name: install npm
+#      shell:
+#        "sudo apt install npm -y"
 
 
 # Vue Play
@@ -101,11 +101,11 @@
   become_method: sudo
 
   tasks:
-    - name: npm install on vuecalc directory
-      shell:
-        "sudo npm install"
-      args:
-        chdir: kubernetes-starterkit/vuecalc/
+#    - name: npm install on vuecalc directory
+#      shell:
+#        "sudo npm install"
+#      args:
+#        chdir: kubernetes-starterkit/vuecalc/
     
 #    - name: startup
 #      shell:
@@ -123,11 +123,11 @@
   become_method: sudo
 
   tasks:   
-    - name: npm install on happy directory
-      shell:
-        "sudo npm install"
-      args:
-        chdir: kubernetes-starterkit/happy/
+#    - name: npm install on happy directory
+#      shell:
+#        "sudo npm install"
+#      args:
+#        chdir: kubernetes-starterkit/happy/
     
 #    - name: startup
 #      shell:
@@ -143,11 +143,11 @@
   become_method: sudo
 
   tasks:  
-    - name: npm install on expressed directory
-      shell:
-        "sudo npm install"
-      args:
-        chdir: kubernetes-starterkit/expressed/
+#    - name: npm install on expressed directory
+#      shell:
+#        "sudo npm install"
+#      args:
+#        chdir: kubernetes-starterkit/expressed/
     
 #    - name: startup
 #      shell:
@@ -162,6 +162,8 @@
   remote_user: ubuntu
   become: yes
   become_method: sudo
+  vars:
+    repository_path: /home/vagrant/kubernetes-starterkit/bootstorage
 
   tasks:
     - name: install flask
@@ -176,16 +178,21 @@
 
 
 
-    - name: deploy flask config
-      template:
-        src: /home/vagrant/kubernetes-starterkit/templates/flask-start.upstart.j2
-        dest: /etc/init/flask-start.conf
+#    - name: deploy flask config
+#      template:
+#        src: /home/vagrant/kubernetes-starterkit/infrastructure/templates/start-flask.upstart.j2
+#        dest: /etc/init/flask-start.conf
 
-    - name: ensure flask is running
-      service:
-        name: flask-start
-        state: started
+#    - name: ensure flask is running
+#      service:
+#        name: flask-start
+#        state: started
 
+    - name: install flask
+      shell:
+        "systemctl start start-flask"
+
+        
 #      register: os_info
 
 #   - debug:
