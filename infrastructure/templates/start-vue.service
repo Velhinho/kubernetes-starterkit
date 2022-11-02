@@ -1,6 +1,6 @@
 
 [Unit]
-Description=Flask service
+Description=Vue service
 After=network.target
 StartLimitIntervalSec=0
 

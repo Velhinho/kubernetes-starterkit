@@ -1,6 +1,6 @@
 
 [Unit]
-Description=Flask service
+Description=Expressed service
 After=network.target
 StartLimitIntervalSec=0
 
@@ -9,7 +9,7 @@ Type=simple
 Restart=always
 RestartSec=1
 WorkingDirectory=/home/ubuntu/kubernetes-starterkit/expressed
-ExecStart=/usr/bin/env bash /home/ubuntu/kubernetes-starterkit/expressed/happy.sh
+ExecStart=/usr/bin/env bash /home/ubuntu/kubernetes-starterkit/expressed/expressed.sh
 
 [Install]
 WantedBy=multi-user.target
