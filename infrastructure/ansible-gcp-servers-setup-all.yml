@@ -60,6 +60,12 @@
         "git clone https://github.com/Velhinho/kubernetes-starterkit.git"
       when: not kube_dir.stat.exists
 
+    - name: git pull to update repo
+      shell:
+        "git pull"
+      args:
+        chdir: kubernetes-starterkit/
+
 
 
 ###############################################
@@ -162,12 +168,23 @@
       shell:
         "sudo apt install python3-flask -y"
     
-    - name: run flask on bootstorage directory
-      shell:
-        "sudo flask run --host='0.0.0.0' -p 80 &"
-      args:
-        chdir: kubernetes-starterkit/bootstorage/
+#    - name: run flask on bootstorage directory
+#      shell:
+#        "sudo flask run --host='0.0.0.0' -p 80"
+#      args:
+#        chdir: kubernetes-starterkit/bootstorage/
 
+
+
+    - name: deploy flask config
+      template:
+        src: /home/vagrant/kubernetes-starterkit/templates/flask-start.upstart.j2
+        dest: /etc/init/flask-start.conf
+
+    - name: ensure flask is running
+      service:
+        name: flask-start
+        state: started
 
 #      register: os_info
 
