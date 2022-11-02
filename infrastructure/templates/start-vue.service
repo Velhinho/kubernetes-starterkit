@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Flask service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+WorkingDirectory=/home/ubuntu/kubernetes-starterkit/vuecalc
+ExecStart=/usr/bin/env bash /home/ubuntu/kubernetes-starterkit/vuecalc/vuecalc.sh
+
+[Install]
+WantedBy=multi-user.target

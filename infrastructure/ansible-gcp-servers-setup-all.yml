@@ -66,7 +66,9 @@
         repo: https://github.com/Velhinho/kubernetes-starterkit.git
         dest: /home/ubuntu/kubernetes-starterkit
 
-
+    - name: daemon reload
+      ansible.builtin.systemd:
+        daemon_reload: yes
 
 ###############################################
     # populate the /etc/hosts
@@ -155,6 +157,22 @@
 #      args:
 #        chdir: kubernetes-starterkit/expressed/
 
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-vue.service
+        state: absent
+
+    - name: copy start-vue.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-vue.service
+        dest: /etc/systemd/system/start-vue.service
+        remote_src: yes
+   
+    - name: start vue
+      ansible.builtin.systemd:
+        state: started
+        name: start-vue
+
 
 # Bootstorage Play
 - hosts: bootstorage
@@ -168,24 +186,6 @@
       shell:
         "sudo apt install python3-flask -y"
     
-#    - name: run flask on bootstorage directory
-#      shell:
-#        "sudo flask run --host='0.0.0.0' -p 80"
-#      args:
-#        chdir: kubernetes-starterkit/bootstorage/
-
-
-
-#    - name: deploy flask config
-#      template:
-#        src: /home/vagrant/kubernetes-starterkit/infrastructure/templates/start-flask.upstart.j2
-#        dest: /etc/init.d/start-flask
-
-#    - name: ensure flask is running
-#      service:
-#        name: start-flask
-#        state: started
-
     - name: remove service file
       ansible.builtin.file:
         path: /etc/systemd/system/start-flask.service
@@ -197,16 +197,12 @@
         dest: /etc/systemd/system/start-flask.service
         remote_src: yes
    
-    - name: change permissions
-      ansible.builtin.file:
-        path: /home/ubuntu/kubernetes-starterkit/bootstorage/bootstorage.sh
-        mode: '0755'
+#    - name: change permissions
+#      ansible.builtin.file:
+#        path: /home/ubuntu/kubernetes-starterkit/bootstorage/bootstorage.sh
+#        mode: '0755'
 
-    - name: daemon reload
-      ansible.builtin.systemd:
-        daemon_reload: yes
-
-    - name: START FLASK
+    - name: start flask
       ansible.builtin.systemd:
         state: started
         name: start-flask
