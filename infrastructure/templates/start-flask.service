@@ -3,12 +3,13 @@
 Description=Flask service
 After=network.target
 StartLimitIntervalSec=0
+
 [Service]
 Type=simple
 Restart=always
 RestartSec=1
-WorkingDirectory=kubernetes-starterkit/bootstorage
-ExecStart=kubernetes-starterkit/bootstorage/bootstorage.sh
+WorkingDirectory=/home/ubuntu/kubernetes-starterkit/bootstorage
+ExecStart=/home/ubuntu/kubernetes-starterkit/bootstorage/bootstorage.sh
 
 [Install]
 WantedBy=multi-user.target

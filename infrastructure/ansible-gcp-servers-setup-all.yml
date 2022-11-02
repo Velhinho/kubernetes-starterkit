@@ -162,8 +162,6 @@
   remote_user: ubuntu
   become: yes
   become_method: sudo
-  vars:
-    repository_path: /home/vagrant/kubernetes-starterkit/bootstorage
 
   tasks:
     - name: install flask
@@ -189,8 +187,14 @@
 #        state: started
 
     - name: install flask
-      shell:
-        "systemctl start start-flask"
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-flask.service 
+        dest: /etc/systemd/system/start-flask.service
+
+    - name: install flask
+      ansible.builtin.systemd:
+        state: started
+        name: start-flask
 
         
 #      register: os_info
