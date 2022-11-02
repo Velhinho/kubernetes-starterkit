@@ -103,17 +103,21 @@
   become_method: sudo
 
   tasks:
-#    - name: npm install on vuecalc directory
-#      shell:
-#        "sudo npm install"
-#      args:
-#        chdir: kubernetes-starterkit/vuecalc/
-    
-#    - name: startup
-#      shell:
-#        "npm run prod"
-#        args:
-#          chdir: kubernetes-starterkit/vuecalc/
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-vue.service
+        state: absent
+
+    - name: copy start-vue.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-vue.service
+        dest: /etc/systemd/system/start-vue.service
+        remote_src: yes
+   
+    - name: start vue
+      ansible.builtin.systemd:
+        state: started
+        name: start-vue
 
 
 
@@ -137,6 +141,23 @@
 #      args:
 #        chdir: kubernetes-starterkit/happy/
 
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-happy.service
+        state: absent
+
+    - name: copy start-happy.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-happy.service
+        dest: /etc/systemd/system/start-happy.service
+        remote_src: yes
+   
+    - name: start happy
+      ansible.builtin.systemd:
+        state: started
+        name: start-happy
+
+
 # Expressed Play
 - hosts: expressed
   gather_facts: True
@@ -159,19 +180,19 @@
 
     - name: remove service file
       ansible.builtin.file:
-        path: /etc/systemd/system/start-vue.service
+        path: /etc/systemd/system/start-expressed.service
         state: absent
 
-    - name: copy start-vue.service to systemd
+    - name: copy start-expressed.service to systemd
       ansible.builtin.copy:
-        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-vue.service
-        dest: /etc/systemd/system/start-vue.service
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-expressed.service
+        dest: /etc/systemd/system/start-expressed.service
         remote_src: yes
    
-    - name: start vue
+    - name: start expressed
       ansible.builtin.systemd:
         state: started
-        name: start-vue
+        name: start-expressed
 
 
 # Bootstorage Play
