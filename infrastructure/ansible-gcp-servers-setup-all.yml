@@ -55,16 +55,16 @@
         path: "kubernetes-starterkit/"
       register: kube_dir
 
-    - name: download repo
-      shell:
-        "git clone https://github.com/Velhinho/kubernetes-starterkit.git"
-      when: not kube_dir.stat.exists
+    - name: remove outdated repo folder
+      ansible.builtin.file:
+        path: /home/ubuntu/kubernetes-starterkit
+        state: absent
+      when: kube_dir.stat.exists
 
-    - name: git pull to update repo
-      shell:
-        "git pull"
-      args:
-        chdir: kubernetes-starterkit/
+    - name: download repo
+      ansible.builtin.git:
+        repo: https://github.com/Velhinho/kubernetes-starterkit.git
+        dest: /home/ubuntu/kubernetes-starterkit
 
 
 
@@ -179,19 +179,34 @@
 #    - name: deploy flask config
 #      template:
 #        src: /home/vagrant/kubernetes-starterkit/infrastructure/templates/start-flask.upstart.j2
-#        dest: /etc/init/flask-start.conf
+#        dest: /etc/init.d/start-flask
 
 #    - name: ensure flask is running
 #      service:
-#        name: flask-start
+#        name: start-flask
 #        state: started
 
-    - name: install flask
-      ansible.builtin.copy:
-        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-flask.service 
-        dest: /etc/systemd/system/start-flask.service
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-flask.service
+        state: absent
 
-    - name: install flask
+    - name: copy start-flask.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-flask.service
+        dest: /etc/systemd/system/start-flask.service
+        remote_src: yes
+   
+    - name: change permissions
+      ansible.builtin.file:
+        path: /home/ubuntu/kubernetes-starterkit/bootstorage/bootstorage.sh
+        mode: '0755'
+
+    - name: daemon reload
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: START FLASK
       ansible.builtin.systemd:
         state: started
         name: start-flask
