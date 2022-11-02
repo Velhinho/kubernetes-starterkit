@@ -129,18 +129,6 @@
   become_method: sudo
 
   tasks:   
-#    - name: npm install on happy directory
-#      shell:
-#        "sudo npm install"
-#      args:
-#        chdir: kubernetes-starterkit/happy/
-    
-#    - name: startup
-#      shell:
-#        "npm run start"
-#      args:
-#        chdir: kubernetes-starterkit/happy/
-
     - name: remove service file
       ansible.builtin.file:
         path: /etc/systemd/system/start-happy.service
@@ -166,18 +154,6 @@
   become_method: sudo
 
   tasks:  
-#    - name: npm install on expressed directory
-#      shell:
-#        "sudo npm install"
-#      args:
-#        chdir: kubernetes-starterkit/expressed/
-    
-#    - name: startup
-#      shell:
-#        "npm run start"
-#      args:
-#        chdir: kubernetes-starterkit/expressed/
-
     - name: remove service file
       ansible.builtin.file:
         path: /etc/systemd/system/start-expressed.service
@@ -218,11 +194,6 @@
         dest: /etc/systemd/system/start-flask.service
         remote_src: yes
    
-#    - name: change permissions
-#      ansible.builtin.file:
-#        path: /home/ubuntu/kubernetes-starterkit/bootstorage/bootstorage.sh
-#        mode: '0755'
-
     - name: start flask
       ansible.builtin.systemd:
         state: started
