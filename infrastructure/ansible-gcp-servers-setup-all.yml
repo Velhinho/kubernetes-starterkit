@@ -37,8 +37,9 @@
 
   tasks:
     - name: apt update
-      shell:
-        "sudo apt update"
+      apt:
+        name: "*"
+        state: latest
 
     - name: install git
       apt:
@@ -66,22 +67,14 @@
         daemon_reload: yes
 
 
-
-
-# This Second Play -> web servers
-- hosts: web
+# populate the /etc/hosts
+- hosts: targets
   gather_facts: True
   remote_user: ubuntu
   become: yes
   become_method: sudo
 
   tasks:
-#    - name: install npm
-#      shell:
-#        "sudo apt install npm -y"
-
-###############################################
-    # populate the /etc/hosts
     - name: update /etc/hosts file for name resolution
       lineinfile:
         dest: /etc/hosts
@@ -90,6 +83,21 @@
         state: present
       when: hostvars[item].ansible_host is defined
       with_items: '{{groups.targets}}'
+
+
+#  web servers
+- hosts: web
+  gather_facts: True
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:    
+    - name: install npm
+      apt:
+        pkg: npm
+        state: present
+
 
 
 # Vue Play
@@ -113,7 +121,7 @@
    
     - name: start vue
       ansible.builtin.systemd:
-        state: started
+        state: restarted
         name: start-vue
 
 
@@ -139,7 +147,7 @@
    
     - name: start happy
       ansible.builtin.systemd:
-        state: started
+        state: restarted
         name: start-happy
 
 
@@ -164,7 +172,7 @@
    
     - name: start expressed
       ansible.builtin.systemd:
-        state: started
+        state: restarted
         name: start-expressed
 
 
@@ -180,10 +188,15 @@
       apt:
         pkg: python3
         state: present
-      
+
     - name: install flask
-      shell:
-        "sudo apt install python3-flask -y"
+      apt:
+        pkg: python3-flask
+        state: present
+      
+#    - name: install flask
+#      shell:
+#        "sudo apt install python3-flask -y"
     
     - name: remove service file
       ansible.builtin.file:
@@ -198,24 +211,6 @@
    
     - name: start flask
       ansible.builtin.systemd:
-        state: started
+        state: restarted
         name: start-flask
-
-###############################################
-    # populate the /etc/hosts
-    - name: update /etc/hosts file for name resolution
-      lineinfile:
-        dest: /etc/hosts
-        regexp: '.*{{ item }}$'
-        line: "{{ hostvars[item].ansible_host }} {{item}}"
-        state: present
-      when: hostvars[item].ansible_host is defined
-      with_items: '{{groups.targets}}'
-
-        
-#      register: os_info
-
-#   - debug:
-#        msg: "{{os_info.stdout_lines}}"
-
 
