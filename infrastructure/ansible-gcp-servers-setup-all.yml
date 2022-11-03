@@ -40,11 +40,6 @@
       shell:
         "sudo apt update"
 
-    - name: install python3
-      apt:
-        pkg: python3
-        state: present
-
     - name: install git
       apt:
         pkg: git
@@ -70,16 +65,7 @@
       ansible.builtin.systemd:
         daemon_reload: yes
 
-###############################################
-    # populate the /etc/hosts
-    - name: update /etc/hosts file for name resolution
-      lineinfile:
-        dest: /etc/hosts
-        regexp: '.*{{ item }}$'
-        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
-        state: present
-      when: hostvars[item]['ansible_default_ipv4']['address'] is defined
-      with_items: '{{groups.targets}}'
+
 
 
 # This Second Play -> web servers
@@ -93,6 +79,17 @@
 #    - name: install npm
 #      shell:
 #        "sudo apt install npm -y"
+
+###############################################
+    # populate the /etc/hosts
+    - name: update /etc/hosts file for name resolution
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: '{{groups.targets}}'
 
 
 # Vue Play
@@ -179,6 +176,11 @@
   become_method: sudo
 
   tasks:
+    - name: install python3
+      apt:
+        pkg: python3
+        state: present
+      
     - name: install flask
       shell:
         "sudo apt install python3-flask -y"
@@ -198,6 +200,17 @@
       ansible.builtin.systemd:
         state: started
         name: start-flask
+
+###############################################
+    # populate the /etc/hosts
+    - name: update /etc/hosts file for name resolution
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: '{{groups.targets}}'
 
         
 #      register: os_info
