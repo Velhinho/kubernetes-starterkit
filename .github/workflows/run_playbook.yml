@@ -1,0 +1,8 @@
+name: run playbook
+run-name: Runs the playbook after every push
+on: [push]
+jobs:
+  run-playbook:
+    runs-on: ubuntu-latest
+    steps:
+      - run: ansible-playbook ../../infrastructure/ansible-gcp-servers-setup-all.yml
