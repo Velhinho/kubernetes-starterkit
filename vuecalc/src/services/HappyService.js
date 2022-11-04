@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://happy/api/happy';
+const url = `http://${process.env.VUE_APP_happy}/api/happy`;
 
 export default {
     getMultiplicationResult (num1, num2) {

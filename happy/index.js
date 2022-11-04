@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const request = require('request');
+require('dotenv').config();
 
 const server = Hapi.server({
     port: 80,
@@ -68,7 +69,7 @@ function postToBootStorage(num1, num2, operation, result){
   
   console.log("Sending create operation request to Spring Boot service 'bootstorage'. Data = ", JSON.stringify(data));
   request({
-      url: "http://bootstorage-svc:5000/api/bootstorage/create",
+      url: `http://${process.env.VUE_APP_bootstorage}/api/bootstorage/create`,
       method: "POST",
       json: true,
       body: data

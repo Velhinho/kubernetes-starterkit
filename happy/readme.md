@@ -1,15 +1,17 @@
+<h1 align="center">
+  <br>
+  Capstone Project - Happy Service
+  <br>
+</h1>
 
-## Application ##
-It is a Hapi.js (v17.8.x) based application having two basic APIs for multiplication and division. It is also a containerised service and similar to the _Expressed_ service, is deployed internally in the kubernetes cluster for serving the apis. It also places an async call to the 'Bootstorage' service to store the last executed operation on Redis.
+It is a Hapi.js (v17.8.x) based application having two basic APIs for multiplication and division.
+The _Vuecalc_ service calls the apis from this service when it has to do an multiply or divide operation, once the operation is complete the _Bootstorage_ service stores the last performed operation in the database.
 
-## Build Instructions ##
 
-Build the image using following command:
+## Project setup ##
+Ansible is the one responsible for all the setup, running the commands on the happy.sh script:
 ```
-docker build -t happy .
+npm install
+sudo npm run start
 ```
-
-Run the image locally using following command:
-```
-docker run -p 80:4000 happy
-```
+-----

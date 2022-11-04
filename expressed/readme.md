@@ -1,14 +1,17 @@
-## Application ##
-It is an Express.js (v4.16.x) based web application serving basic APIs for addition and subtraction. It is a containerised service and deployed inside the cluster as a pod eligible to horizontally scale under extreme conditions. The _Vuecalc_ service calls the apis from this service when it has to do an add or subtract operation, once the operation is complete an async call is placed to the _Bootstorage_ service to store the last performed operation in the Redis data store.
+<h1 align="center">
+  <br>
+  Capstone Project - Expressed Service
+  <br>
+</h1>
 
-## Build Instructions ##
+It is an Express.js based web application serving basic APIs for addition and subtraction. 
+The _Vuecalc_ service calls the apis from this service when it has to do an add or subtract operation, once the operation is complete the _Bootstorage_ service stores the last performed operation in the database.
 
-Build the image using following command:
-```
-docker build -t expressed .
-```
 
-Run the image locally using following command:
+## Project setup ##
+Ansible is the one responsible for all the setup, running the commands on the expressed.sh script:
 ```
-docker run -p 80:3000 expressed
+npm install
+sudo npm run start
 ```
+-----

@@ -1,7 +1,11 @@
 from flask import Flask, request
+from flask_cors import CORS
 from ServerManager import ServerManager
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
+CORS(app)
 serverManager = ServerManager()
 
 #TODO: Error handling? JSON validation?
