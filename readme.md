@@ -9,14 +9,12 @@
 <h4 align="center">Team 26:
   <br>
   90718, Gonçalo Velhinho
+  <br>
   90792, Diogo Dias
+  <br>
   96742, Inês Gomes
   <br>
 </h4>
-
-* Include a brief description of the application and of the solution and its components, configuration, implementation options, tools used, etc.
-
-
 
 ## Micro-services ##
 
@@ -35,11 +33,10 @@ The _Vuecalc_ service calls the apis from this service when it has to do an add 
 
 ### Happy ###
 It is a Hapi.js (v17.8.x) based application having two basic APIs for multiplication and division.
-It also uses the 'Bootstorage' service to store the last executed operation.
+It also uses the _Bootstorage_ service to store the last executed operation.
 
 ### Bootstorage ###
-aaaaaaa
-
+The _Bootstorage_ is a simple Flask application that uses SQLite to store the operations made by _Happy_ and _Expressed_ services and to display past operations to _Vuecalc_ service.
 
 ## Infrastructure ##
 
@@ -120,7 +117,8 @@ end # of config
 
 By running the command ```vagrant up``` the mgmt machine will be started and by using ```vagrant ssh``` it is possible to connect to the machine's console. There we can easily deploy our infrastructure as explain at [README.md](https://github.com/Velhinho/kubernetes-starterkit/blob/master/infrastructure/README.md).
 
-# Create and share the Group the RSA SSH keypair
+## Create and share the Group the RSA SSH keypair ##
+
 To have access via SSH to the VM instances that will be created it is needed to have a SSH keypair.
 1. To generate the Group SSH Keypair, go to the home directory of the
 Management node (mgmt) and run the command ```ssh-keygen -t rsa -b 4096```, where '-t' corresponds to the type of key (RSA) and '-b' its length. Hit ENTER to the prompts and do not provide a password.
@@ -130,7 +128,6 @@ Management node (mgmt) and run the command ```ssh-keygen -t rsa -b 4096```, wher
 cat .ssh/id_rsa.pub >> .ssh/authorized_keys
 cat .ssh/authorized_keys
 ```
-
 
 By running the command ```exit``` to exit the machine console and then ```vagrant halt``` the mgmt machine will be stoped. Check the machines status with ```vagrant global-status```.
 
