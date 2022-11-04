@@ -6,12 +6,12 @@ class ServerManager:
     def __init__(self):
         con = sqlite3.connect("agisit.db")
         con.execute('''
-        CREATE TABLE IF NOT EXISTS Calculations 
-       (ID INTEGER PRIMARY KEY     AUTOINCREMENT NOT NULL, 
-       NUM1           FLOAT    NOT NULL, 
-       NUM2           FLOAT    NOT NULL, 
-       OPERATION      TEXT     NOT NULL,
-       RESULT         FLOAT    NOT NULL);
+        CREATE TABLE IF NOT EXISTS calculations 
+       (id INTEGER PRIMARY KEY     AUTOINCREMENT NOT NULL, 
+       num1           FLOAT    NOT NULL, 
+       num2           FLOAT    NOT NULL, 
+       operation      TEXT     NOT NULL,
+       result         FLOAT    NOT NULL);
        ''')  
         con.close()
 
@@ -19,7 +19,7 @@ class ServerManager:
         con = sqlite3.connect("agisit.db")
         res_list = []
         for num1, num2, operation, result in con.execute('''
-        SELECT NUM1, NUM2, OPERATION, RESULT FROM Calculations;
+        SELECT num1, num2, operation, result FROM calculations;
         '''):
             res_list.append(f'{num1} {operation} {num2} = {result}')
         response = {'data' : res_list}
@@ -28,6 +28,6 @@ class ServerManager:
 
     def post(self, num1, num2, op, result):
         con = sqlite3.connect("agisit.db")
-        con.execute(f'INSERT INTO Calculations(NUM1, NUM2, OPERATION, RESULT) VALUES (21, 21, "+", 42)')
+        con.execute(f'INSERT INTO calculations (num1, num2, operation, result) VALUES ({num1}, {num2}, {op}, {result})')
         con.commit()
         con.close()
