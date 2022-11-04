@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const request = require('request');
+require('dotenv').config();
 
 const server = Hapi.server({
     port: 80,
@@ -67,7 +68,7 @@ function postToBootStorage(num1, num2, operation, result){
          };
   
   request({
-      url: "http://localhost:5000/api/bootstorage",
+      url: `http://${process.env.VUE_APP_bootstorage}/api/bootstorage/create`,
       method: "POST",
       json: true,
       body: data
