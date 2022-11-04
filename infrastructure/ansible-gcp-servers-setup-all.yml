@@ -1,13 +1,11 @@
 ---
 # file: ansible-gcp-servers-setup-all.yml
 # configures the server instances
-# This Playbook has Three Plays: one for critical configurations in all servers
-# A second one for installing software in web servers
-# a third one to install software in the bootstorage
+# This Playbook has Seven Plays
 
-# This First Play sets up critical configuration on servers
+# First Play sets up critical configuration on servers
 - hosts: targets
-  # as the systems are not yet "known" by Ansible Facts cannot be gathered yet
+  # Ansible Facts cannot be gathered yet
   gather_facts: no
   remote_user: ubuntu
   become: yes
@@ -20,7 +18,7 @@
         regexp: "requiretty"
         dest: /etc/sudoers.d/os_defaults
         state: absent
-    # Giving permissions in sudoers for system critical files (see https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html)
+
     - name: Validate the sudoers file before saving not to require password
       lineinfile:
         dest: /etc/sudoers
@@ -68,7 +66,7 @@
         daemon_reload: yes
 
 
-# populate the /etc/hosts
+# Second Play populates the /etc/hosts
 - hosts: targets
   gather_facts: True
   remote_user: ubuntu
@@ -86,7 +84,7 @@
       with_items: '{{groups.targets}}'
 
 
-#  web servers
+#  Third Play installs npm on web servers
 - hosts: web
   gather_facts: True
   remote_user: ubuntu
@@ -98,7 +96,6 @@
       apt:
         pkg: npm
         state: present
-
 
 
 # Vue Play
@@ -124,7 +121,6 @@
       ansible.builtin.systemd:
         state: restarted
         name: start-vue
-
 
 
 # Happy Play
@@ -194,11 +190,7 @@
       apt:
         pkg: python3-flask
         state: present
-      
-#    - name: install flask
-#      shell:
-#        "sudo apt install python3-flask -y"
-    
+          
     - name: remove service file
       ansible.builtin.file:
         path: /etc/systemd/system/start-flask.service

@@ -1,11 +1,11 @@
 
 # Elemets of the cloud such as virtual servers,
 # networks, firewall rules are created as resources
-# syntax is: resource RESOURCE_TYPE RESOURCE_NAME
-# https://www.terraform.io/docs/configuration/resources.html
+# Image list can be found at:
+# https://cloud.google.com/compute/docs/images
 
 ###########  Micro-services   #############
-# vuecalc service
+# vuecalc
 resource "google_compute_instance" "vue" {
     name = "vue"
     machine_type = var.GCP_MACHINE_TYPE
@@ -13,8 +13,6 @@ resource "google_compute_instance" "vue" {
 
     boot_disk {
         initialize_params {
-          # image list can be found at:
-          # https://cloud.google.com/compute/docs/images
           image = "ubuntu-2004-focal-v20221018"
         }
     }
@@ -40,8 +38,6 @@ resource "google_compute_instance" "happy" {
 
     boot_disk {
         initialize_params {
-          # image list can be found at:
-          # https://cloud.google.com/compute/docs/images
           image = "ubuntu-2004-focal-v20221018"
         }
     }
@@ -67,8 +63,6 @@ resource "google_compute_instance" "expressed" {
 
     boot_disk {
         initialize_params {
-          # image list can be found at:
-          # https://cloud.google.com/compute/docs/images
           image = "ubuntu-2004-focal-v20221018"
         }
     }
@@ -95,8 +89,6 @@ resource "google_compute_instance" "bootstorage" {
 
     boot_disk {
         initialize_params {
-          # image list can be found at:
-          # https://cloud.google.com/compute/docs/images
           image = "ubuntu-2004-focal-v20221018"
         }
     }
