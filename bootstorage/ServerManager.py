@@ -7,8 +7,7 @@ class ServerManager:
         con = sqlite3.connect("agisit.db")
         con.execute('''
         CREATE TABLE IF NOT EXISTS calculations 
-       (id INTEGER PRIMARY KEY     AUTOINCREMENT NOT NULL, 
-       num1           FLOAT    NOT NULL, 
+       (num1           FLOAT    NOT NULL, 
        num2           FLOAT    NOT NULL, 
        operation      TEXT     NOT NULL,
        result         FLOAT    NOT NULL);
@@ -28,6 +27,6 @@ class ServerManager:
 
     def post(self, num1, num2, op, result):
         con = sqlite3.connect("agisit.db")
-        con.execute(f'INSERT INTO calculations (num1, num2, operation, result) VALUES ({num1}, {num2}, {op}, {result})')
+        con.execute('INSERT INTO calculations VALUES(?, ?, ?, ?)', (num1, num2, op, result))
         con.commit()
         con.close()
