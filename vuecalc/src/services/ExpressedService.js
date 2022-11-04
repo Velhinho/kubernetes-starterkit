@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://${process.env.VUE_APP_expressed}/api/express';
+const url = `http://${process.env.VUE_APP_expressed}/api/express`;
 
 export default {
     getAdditionResult (num1, num2) {
