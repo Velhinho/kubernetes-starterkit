@@ -2,7 +2,7 @@
 # https://www.terraform.io/docs/configuration/variables.html
 
 variable "GCP_PROJECT_ID" {
-    default = "agist-22-23-website-96742"
+    default = "agisit-2223-website-90792"
 }
 
 # A list of machine types is found at:
@@ -19,7 +19,7 @@ variable "GCP_MACHINE_TYPE" {
 # For prices of your deployment check:
 # Compute Engine dashboard -> VM instances -> Zone
 variable "GCP_ZONE" {
-    default = "europe-west3-c"
+    default = "europe-west2-c"
 }
 
 # Minimum required
