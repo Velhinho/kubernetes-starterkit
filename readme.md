@@ -6,6 +6,14 @@
 
 <h4 align="center">A minimal Microservices based calculator application based over <a href="https://github.com/khandelwal-arpit/kubernetes-starterkit" target="_blank">Kubernetes Starterkit Project</a>.</h4>
 
+<h4 align="center">Team 26:
+  <br>
+  90718, Gonçalo Velhinho
+  90792, Diogo Dias
+  96742, Inês Gomes
+  <br>
+</h4>
+
 * Include a brief description of the application and of the solution and its components, configuration, implementation options, tools used, etc.
 
 
@@ -112,3 +120,18 @@ end # of config
 
 By running the command ```vagrant up``` the mgmt machine will be started and by using ```vagrant ssh``` it is possible to connect to the machine's console. There we can easily deploy our infrastructure as explain at [README.md](https://github.com/Velhinho/kubernetes-starterkit/blob/master/infrastructure/README.md).
 
+# Create and share the Group the RSA SSH keypair
+To have access via SSH to the VM instances that will be created it is needed to have a SSH keypair.
+1. To generate the Group SSH Keypair, go to the home directory of the
+Management node (mgmt) and run the command ```ssh-keygen -t rsa -b 4096```, where '-t' corresponds to the type of key (RSA) and '-b' its length. Hit ENTER to the prompts and do not provide a password.
+2. Copy the public and private keys from the .ssh folder to the project folder:
+3. Insert into the authorized_keys file the generated PUBLIC key verifying that you have a second entry:
+```
+cat .ssh/id_rsa.pub >> .ssh/authorized_keys
+cat .ssh/authorized_keys
+```
+
+
+By running the command ```exit``` to exit the machine console and then ```vagrant halt``` the mgmt machine will be stoped. Check the machines status with ```vagrant global-status```.
+
+-----
