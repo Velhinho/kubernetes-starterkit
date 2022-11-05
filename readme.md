@@ -30,13 +30,13 @@
 A vue-cli 3.0 based Vue.js application which renders the calculator UI.
 The service is composed of 'home', 'calculator' and 'history' views. It uses Axios library to do all the API calls. The 'history' view shows a list of recent operations done over the calculator application by fetching them from the 'Bootstorage' service.
 
-### Expressed ###
-It is an Express.js based web application serving basic APIs for addition and subtraction. 
-The _Vuecalc_ service calls the apis from this service when it has to do an add or subtract operation, once the operation is complete the _Bootstorage_ service stores the last performed operation in the database.
-
 ### Happy ###
 It is a Hapi.js (v17.8.x) based application having two basic APIs for multiplication and division.
 It also uses the _Bootstorage_ service to store the last executed operation.
+
+### Expressed ###
+Is also a Hapi.js based web application serving basic APIs for addition and subtraction. 
+The _Vuecalc_ service calls the apis from this service when it has to do an add or subtract operation, once the operation is complete the _Bootstorage_ service stores the last performed operation in the database.
 
 ### Bootstorage ###
 The _Bootstorage_ is a simple Flask application that uses SQLite to store the operations made by _Happy_ and _Expressed_ services and to display past operations to _Vuecalc_ service.
