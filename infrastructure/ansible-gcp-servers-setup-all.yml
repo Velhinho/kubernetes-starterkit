@@ -107,8 +107,13 @@
     - name: untar tar
       ansible.builtin.unarchive:
         src: /home/ubuntu/node_exporter.tar.gz
-        dest: /home/ubuntu/node_exporter
+        dest: /home/ubuntu/
         remote_src: yes
+      when: not node_exporter_dir.stat.exists
+
+    - name: rename untared directory
+      shell:
+        cmd: mv /home/ubuntu/node_exporter-1.4.0.linux-amd64 /home/ubuntu/node_exporter
       when: not node_exporter_dir.stat.exists
           
     - name: remove service file
@@ -313,8 +318,13 @@
     - name: untar tar
       ansible.builtin.unarchive:
         src: /home/ubuntu/prometheus.tar.gz
-        dest: /home/ubuntu/prometheus
+        dest: /home/ubuntu/
         remote_src: yes
+      when: not prometheus_dir.stat.exists
+
+    - name: rename untared directory
+      shell:
+        cmd: mv /home/ubuntu/prometheus-2.40.0-rc.0.linux-amd64 /home/ubuntu/prometheus
       when: not prometheus_dir.stat.exists
           
     - name: remove service file
