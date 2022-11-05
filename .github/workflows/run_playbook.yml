@@ -1,8 +1,23 @@
 name: run playbook
 run-name: Runs the playbook after every push
 on: [push]
+
 jobs:
-  run-playbook:
+  update-machines:
+    name: Update machines
     runs-on: ubuntu-latest
+
     steps:
-      - run: ansible-playbook ./infrastructure/ansible-gcp-servers-setup-all.yml
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCE_PROJECT }}
+        service_account_key: ${{ secrets.GCE_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Update repo and restart service
+      run: gcloud compute ssh vuecalc --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-vue"
+    

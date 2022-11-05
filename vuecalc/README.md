@@ -9,7 +9,7 @@ This is a vue-cli 3.0 based Vue.js application which renders the calculator UI a
 ![Calculator UI](https://github.com/Velhinho/kubernetes-starterkit/blob/master/assets/img/vuecalc.png)
 
 
-The service is composed of 'home', 'calculator' and 'history' views. It uses Axios library to do all the API calls. The 'history' view shows a list of recent operations done over the calculator application by fetching them from the 'Bootstorage' service.
+The service is composed of 'home', 'calculator' and 'history' views. It uses Axios library to do all the API calls. The 'history' view shows a list of recent operations done over the calculator application by fetching them from the _Bootstorage_ service.
 
 
 ## Project setup ##
