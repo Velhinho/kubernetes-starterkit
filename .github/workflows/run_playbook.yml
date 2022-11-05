@@ -21,11 +21,23 @@ jobs:
     - name: Update repo and restart vue
       run: gcloud compute ssh vue --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-vue"
 
+    - name: exit vue
+      run: exit
+    
     - name: Update repo and restart happy
       run: gcloud compute ssh happy --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-happy"
+
+    - name: exit happy
+      run: exit
 
     - name: Update repo and restart expressed
       run: gcloud compute ssh expressed --troubleshoot --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-expressed"
 
+    - name: exit expressed
+      run: exit
+
     - name: Update repo and restart bootstorage
       run: gcloud compute ssh bootstorage --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-flask"
+    
+    - name: exit happy
+      run: exit
