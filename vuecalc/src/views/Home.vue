@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-  	<h1>Welcome to THE BEST Microservice based Calculator implementation! We &lt3 AGISIT</h1>
+  	<h1>Welcome to THE BEST Microservice based Calculator implementation! We ADORE AGISIT</h1>
     <img alt="Vue logo" src="../assets/logo.png" style="width: 300px">
     <HelloWorld/>
   </div>
