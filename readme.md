@@ -16,6 +16,9 @@
   <br>
 </h4>
 
+<h4 align="center"><a href="https://github.com/Velhinho/kubernetes-starterkit" target="_blank">Team 26 Working Repository</a></h4>
+
+
 ## Micro-services ##
 
 * *Vuecalc* service
@@ -40,7 +43,7 @@ The _Bootstorage_ is a simple Flask application that uses SQLite to store the op
 
 ## Infrastructure ##
 
-The infrastructure consists of a Google Cloud VM for each micro-service.
+The infrastructure consists of a Google Cloud Compute Engine for each micro-service.
 * *Vue*
 * *Happy*
 * *Expressed*
