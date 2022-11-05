@@ -18,14 +18,14 @@ jobs:
         service_account_key: ${{ secrets.GCE_SA_KEY }}
         export_default_credentials: true
 
-    - name: Update repo and restart service
+    - name: Update repo and restart vue
       run: gcloud compute ssh vue --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-vue"
 
-    - name: Update repo and restart service
+    - name: Update repo and restart happy
       run: gcloud compute ssh happy --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-happy"
 
-    - name: Update repo and restart service
-      run: gcloud compute ssh expressed --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-expressed"
+    - name: Update repo and restart expressed
+      run: gcloud compute ssh expressed --troubleshoot --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-expressed"
 
-    - name: Update repo and restart service
+    - name: Update repo and restart bootstorage
       run: gcloud compute ssh bootstorage --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-flask"
