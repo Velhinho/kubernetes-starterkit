@@ -1,0 +1,1 @@
+sudo /home/ubuntu/prometheus/prometheus --config.file=/home/ubuntu/kubernetes-starterkit/prometheus/prometheus.yml

@@ -66,7 +66,7 @@
         daemon_reload: yes
 
 
-# Second Play populates the /etc/hosts
+# Second Play populates the /etc/hosts and .env
 - hosts: targets
   gather_facts: True
   remote_user: ubuntu
@@ -83,6 +83,49 @@
         create: yes
       when: hostvars[item].ansible_host is defined
       with_items: '{{groups.targets}}'
+
+    - name: update /etc/hosts file for name resolution
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: '{{groups.targets}}'
+
+    - name: check if node exporter exists
+      stat:
+        path: /home/ubuntu/node_exporter
+      register: node_exporter_dir
+
+    - name: install node exporter
+      ansible.builtin.get_url:
+        url: https://github.com/prometheus/node_exporter/releases/download/v1.4.0/node_exporter-1.4.0.linux-amd64.tar.gz
+        dest: /home/ubuntu/node_exporter.tar.gz
+      when: not node_exporter_dir.stat.exists
+
+    - name: untar tar
+      ansible.builtin.unarchive:
+        src: /home/ubuntu/node_exporter.tar.gz
+        dest: /home/ubuntu/node_exporter
+        remote_src: yes
+      when: not node_exporter_dir.stat.exists
+          
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-node-exporter.service
+        state: absent
+
+    - name: copy start-node-exporter.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-node-exporter.service
+        dest: /etc/systemd/system/start-node-exporter.service
+        remote_src: yes
+   
+    - name: start node exporter
+      ansible.builtin.systemd:
+        state: restarted
+        name: start-node-exporter
 
 
 #  Third Play installs npm on web servers
@@ -247,4 +290,46 @@
       ansible.builtin.systemd:
         state: restarted
         name: start-flask
+
+# Prometheus Play
+- hosts: prometheus
+  gather_facts: true
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: check if prometheus exists
+      stat:
+        path: /home/ubuntu/prometheus
+      register: prometheus_dir
+
+    - name: install prometheus
+      ansible.builtin.get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.40.0-rc.0/prometheus-2.40.0-rc.0.linux-amd64.tar.gz
+        dest: /home/ubuntu/prometheus.tar.gz
+      when: not prometheus_dir.stat.exists
+
+    - name: untar tar
+      ansible.builtin.unarchive:
+        src: /home/ubuntu/prometheus.tar.gz
+        dest: /home/ubuntu/prometheus
+        remote_src: yes
+      when: not prometheus_dir.stat.exists
+          
+    - name: remove service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/start-prometheus.service
+        state: absent
+
+    - name: copy start-prometheus.service to systemd
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubernetes-starterkit/infrastructure/templates/start-prometheus.service
+        dest: /etc/systemd/system/start-prometheus.service
+        remote_src: yes
+   
+    - name: start prometheus
+      ansible.builtin.systemd:
+        state: restarted
+        name: start-prometheus
 

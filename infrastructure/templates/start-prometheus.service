@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Prometheus service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+WorkingDirectory=/home/ubuntu/kubernetes-starterkit/prometheus
+ExecStart=/usr/bin/env bash /home/ubuntu/kubernetes-starterkit/prometheus/prometheus.sh
+
+[Install]
+WantedBy=multi-user.target

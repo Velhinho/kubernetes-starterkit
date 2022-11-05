@@ -1,0 +1,1 @@
+sudo /home/ubuntu/node_exporter/node_exporter

@@ -106,3 +106,28 @@ resource "google_compute_instance" "bootstorage" {
   tags = ["bootstorage", "http123"]
 }
 
+# prometheus
+resource "google_compute_instance" "prometheus" {
+    name = "prometheus"
+    machine_type = var.GCP_MACHINE_TYPE
+    zone = var.GCP_ZONE
+
+    boot_disk {
+        initialize_params {
+          image = "ubuntu-2004-focal-v20221018"
+        }
+    }
+
+    network_interface {
+      network = "default"
+      access_config {
+      }
+    }
+
+    metadata = {
+      ssh-keys = "ubuntu:${file("/home/vagrant/.ssh/id_rsa.pub")}"
+    }
+
+  tags = ["prometheus", "http123"]
+}
+

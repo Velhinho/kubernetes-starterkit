@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+- job_name: node
+  static_configs:
+  - targets: ['vue:9100', 'expressed:9100', 'happy:9100', 'bootstorage:9100']
+  
+  

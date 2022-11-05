@@ -15,3 +15,7 @@ output "expressed" {
 output "bootstorage" {
   value = join(" ", google_compute_instance.bootstorage.*.network_interface.0.access_config.0.nat_ip)
 }
+
+output "prometheus" {
+  value = join(" ", google_compute_instance.prometheus.*.network_interface.0.access_config.0.nat_ip)
+}
