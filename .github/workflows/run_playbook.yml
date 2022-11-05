@@ -20,4 +20,12 @@ jobs:
 
     - name: Update repo and restart service
       run: gcloud compute ssh vue --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-vue"
-    
+
+    - name: Update repo and restart service
+      run: gcloud compute ssh happy --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-happy"
+
+    - name: Update repo and restart service
+      run: gcloud compute ssh expressed --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-expressed"
+
+    - name: Update repo and restart service
+      run: gcloud compute ssh bootstorage --zone=europe-west2-c --command="sudo bash /home/ubuntu/kubernetes-starterkit/restart.sh start-flask"
